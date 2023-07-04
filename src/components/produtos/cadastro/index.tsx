@@ -1,6 +1,23 @@
+import { useState } from 'react'
 import { Layout } from 'components'
 
 export const CadastroProdutos: React.FC = () => {
+   
+   const [ sku, setSku] = useState ('')
+   const [ preco, setPreco] = useState ('')
+   const [ nome, setNome] = useState ('')
+   const [ descricao, setDescricao] = useState ('')
+
+   const submit = () => {
+        const produto = {
+            sku,
+            preco,
+            nome,
+            descricao
+        }
+        console.log(produto)
+   }
+
     return(
 
         <Layout titulo='Produtos'>
@@ -9,7 +26,8 @@ export const CadastroProdutos: React.FC = () => {
                         <label className='label' htmlFor='inputSKU'>SKU: *</label>
                         <div className='control'>
                             <input className='input'
-                                id='inputSKU'
+                                id='inputSKU' value={sku}
+                                onChange={event => setSku(event.target.value)}
                                 placeholder='Digite o SKU do produto' />
                         </div>
                 </div>
@@ -18,7 +36,8 @@ export const CadastroProdutos: React.FC = () => {
                         <label className='label' htmlFor='inputPreco'>Preço: *</label>
                         <div className='control'>
                             <input className='input'
-                                id='inputPreco'
+                                id='inputPreco' value={preco}
+                                onChange={event => setPreco(event.target.value)}
                                 placeholder='Digite o Preço do  produto' />
                         </div>
                 </div>
@@ -29,7 +48,8 @@ export const CadastroProdutos: React.FC = () => {
                         <label className='label' htmlFor='inputNome'>Nome: *</label>
                         <div className='control'>
                             <input className='input'
-                                id='inputNome'
+                                id='inputNome' value={nome}
+                                onChange={event => setNome(event.target.value)}
                                 placeholder='Digite o Nome do produto' />
                         </div>
                  </div>
@@ -40,7 +60,8 @@ export const CadastroProdutos: React.FC = () => {
                         <label className='label' htmlFor='inputDesc'>Descrição: *</label>
                         <div className='control'>
                             <textarea className='textarea'
-                                id='inputDesc'
+                                id='inputDesc' value={descricao}
+                                onChange={event => setDescricao(event.target.value)}
                                 placeholder='Digite a Descrição detalhada do produto' />
                         </div>
                 </div>
@@ -48,7 +69,7 @@ export const CadastroProdutos: React.FC = () => {
 
            <div className='field is-grouped'>
                 <div className='control is-link'>
-                    <button className='button' >Salvar</button>
+                    <button onClick={submit} className='button' >Salvar</button>
                 </div>
                 <div className='control'>
                     <button className='button' >Voltar</button>
