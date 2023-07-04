@@ -4,39 +4,45 @@ export const CadastroProdutos: React.FC = () => {
     return(
 
         <Layout titulo='Produtos'>
-           <div className='field'>
-                <label className='label' htmlFor='inputSKU'>SKU: *</label>
-                <div className='control'>
-                    <input className='input'
-                           id='inputSKU'
-                           placeholder='Digite o SKU do produto' />
+            <div className='columns'>
+                <div className='field is-half column'>
+                        <label className='label' htmlFor='inputSKU'>SKU: *</label>
+                        <div className='control'>
+                            <input className='input'
+                                id='inputSKU'
+                                placeholder='Digite o SKU do produto' />
+                        </div>
                 </div>
+
+                <div className='field is-half column'>
+                        <label className='label' htmlFor='inputPreco'>Preço: *</label>
+                        <div className='control'>
+                            <input className='input'
+                                id='inputPreco'
+                                placeholder='Digite o Preço do  produto' />
+                        </div>
+                </div>
+            </div>
+
+            <div className='columns'>
+                <div className='field column is-full'>
+                        <label className='label' htmlFor='inputNome'>Nome: *</label>
+                        <div className='control'>
+                            <input className='input'
+                                id='inputNome'
+                                placeholder='Digite o Nome do produto' />
+                        </div>
+                 </div>
            </div>
 
-           <div className='field'>
-                <label className='label' htmlFor='inputPreco'>Preço: *</label>
-                <div className='control'>
-                    <input className='input'
-                           id='inputPreco'
-                           placeholder='Digite o Preço do  produto' />
-                </div>
-           </div>
-
-           <div className='field'>
-                <label className='label' htmlFor='inputNome'>Nome: *</label>
-                <div className='control'>
-                    <input className='input'
-                           id='inputNome'
-                           placeholder='Digite o Nome do produto' />
-                </div>
-           </div>
-
-           <div className='field'>
-                <label className='label' htmlFor='inputDesc'>Descrição: *</label>
-                <div className='control'>
-                    <textarea className='textarea'
-                           id='inputDesc'
-                           placeholder='Digite a Descrição detalhada do produto' />
+           <div className='columns'>
+                <div className='field column is-full'>
+                        <label className='label' htmlFor='inputDesc'>Descrição: *</label>
+                        <div className='control'>
+                            <textarea className='textarea'
+                                id='inputDesc'
+                                placeholder='Digite a Descrição detalhada do produto' />
+                        </div>
                 </div>
            </div>
 
