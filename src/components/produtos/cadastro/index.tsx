@@ -45,7 +45,7 @@ export const CadastroProdutos: React.FC = () => {
                     <button className='button' >Salvar</button>
                 </div>
                 <div className='control'>
-                    <button className='button' >Voltarrg</button>
+                    <button className='button' >Voltar</button>
                 </div>
            </div>
         </Layout>
