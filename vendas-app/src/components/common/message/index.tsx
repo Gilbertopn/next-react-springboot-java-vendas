@@ -4,6 +4,11 @@ interface MessageProps{
     texto: string;
 }
 
+export interface ALert{
+    tipo: string;
+    field?: string;
+    texto: string;
+}
 
 
 export const Message: React.FC<MessageProps> = ({
@@ -14,7 +19,7 @@ export const Message: React.FC<MessageProps> = ({
     return(
         <article className={`message is-${tipo}`}>
             <div className="message-body">
-                { field &&`${field}: `}{texto}
+                { field && `${field}: `}{texto}
             </div>
         </article>
     )

@@ -3,6 +3,8 @@ import { Input, Layout, Message } from 'components'
 import { useProdutoService } from 'app/services'
 import { Produto } from 'app/models/produtos'
 import { converterEmBigDecimal } from 'app/util/money'
+import { ALert } from 'components/common/message'
+
 
 export const CadastroProdutos: React.FC = () => {
    
@@ -13,6 +15,9 @@ export const CadastroProdutos: React.FC = () => {
    const [ descricao, setDescricao] = useState<string> ('')
    const [ id, setId] = useState<string | undefined> ('')
    const [ cadastro, setCadastro] = useState<string | undefined> ('')
+    const [messages, setMessages] = useState<Array<ALert>>([
+    
+    ])
 
    const submit = () => {
         const produto: Produto =  {
@@ -25,8 +30,12 @@ export const CadastroProdutos: React.FC = () => {
         if(id){
 
             service
-            .atualizar(produto)
-            .then(response => console.log("atualizado!"))
+                .atualizar(produto)
+                .then(response => {
+                    setMessages([{
+                        tipo: "success", texto: "Produto atualizado com sucesso"
+                    }])
+            })
 
         }else{
 
@@ -35,6 +44,9 @@ export const CadastroProdutos: React.FC = () => {
             .then(produtoResposta => {
                 setId(produtoResposta.id)
                 setCadastro(produtoResposta.cadastro)
+                setMessages([{
+                    tipo: "success", texto: "Produto salvo com sucesso"
+                }])
             })
         }
 
@@ -42,8 +54,7 @@ export const CadastroProdutos: React.FC = () => {
 
     return(
 
-        <Layout titulo='Produtos'>
-            <Message field='Nome' texto="Inválido" tipo="danger"/>
+        <Layout titulo='Produtos' mensagens={messages}>
 
             {id &&
                 <div className='columns'>
