@@ -11,9 +11,16 @@ const msgCampoObrigatorio = "Campo Obrigatorio";
 const validationSchema = yup.object().shape({
     sku: yup.string().trim().required(msgCampoObrigatorio),
     nome: yup.string().trim().required(msgCampoObrigatorio),
-    descricao: yup.string().trim().required(msgCampoObrigatorio).length(10 , "Deve possuir pelomenos 10 caracteres"),
+    descricao: yup.string().trim().required(msgCampoObrigatorio),
     preco: yup.number().required(msgCampoObrigatorio).moreThan(0, "Valor deve ser maior que 0")
 })
+
+interface FormErros {
+    sku?: string;
+    nome?: string;
+    preco?: string;
+    descricao?: string;
+}
 
 export const CadastroProdutos: React.FC = () => {
    
@@ -24,9 +31,8 @@ export const CadastroProdutos: React.FC = () => {
    const [ descricao, setDescricao] = useState<string> ('')
    const [ id, setId] = useState<string | undefined> ('')
    const [ cadastro, setCadastro] = useState<string | undefined> ('')
-    const [messages, setMessages] = useState<Array<ALert>>([
-    
-    ])
+   const [messages, setMessages] = useState<Array<ALert>>([])
+   const [errors, setErrors] = useState<FormErros>({})
 
    const submit = () => {
         const produto: Produto =  {
@@ -38,36 +44,36 @@ export const CadastroProdutos: React.FC = () => {
         }
 
         validationSchema.validate(produto).then(obj=>{
-            
-        if(id){
+            setErrors({})
+            if(id){
 
-            service
-                .atualizar(produto)
-                .then(response => {
+                service
+                    .atualizar(produto)
+                    .then(response => {
+                        setMessages([{
+                            tipo: "success", texto: "Produto atualizado com sucesso"
+                        }])
+                })
+
+             }else{
+
+                service
+                .salvar(produto)
+                .then(produtoResposta => {
+                    setId(produtoResposta.id)
+                    setCadastro(produtoResposta.cadastro)
                     setMessages([{
-                        tipo: "success", texto: "Produto atualizado com sucesso"
+                        tipo: "success", texto: "Produto salvo com sucesso"
                     }])
-            })
-
-        }else{
-
-            service
-            .salvar(produto)
-            .then(produtoResposta => {
-                setId(produtoResposta.id)
-                setCadastro(produtoResposta.cadastro)
-                setMessages([{
-                    tipo: "success", texto: "Produto salvo com sucesso"
-                }])
-            })
+              })
         }
         }).catch(err =>{
             const field = err.path;
             const message = err.message;
 
-            setMessages([
-                {tipo: "danger", field, texto: message  }
-            ])
+            setErrors({
+                [field]:message
+            })
         })
 
 
@@ -102,7 +108,8 @@ export const CadastroProdutos: React.FC = () => {
                      value={sku}
                      id="inputSku" 
                      placeholder='Digite o SKU do produto'
-              
+                     error={errors.sku}
+
                       />
 
             <Input  label='Preço: *'
@@ -112,7 +119,7 @@ export const CadastroProdutos: React.FC = () => {
                      id="inputPreco" 
                      placeholder='Digite o Preço do produto'
                      currency
-
+                     error={errors.preco}
                       />
             </div>
 
@@ -122,7 +129,7 @@ export const CadastroProdutos: React.FC = () => {
                      value={nome}
                      id="inputNome" 
                      placeholder='Digite o Nome do produto'
-              
+                     error={errors.nome}
                       />
 
 
@@ -135,6 +142,10 @@ export const CadastroProdutos: React.FC = () => {
                                 id='inputDesc' value={descricao}
                                 onChange={event => setDescricao(event.target.value)}
                                 placeholder='Digite a Descrição detalhada do produto' />
+                                {errors.descricao &&
+                                    <p className="help is-danger">{errors.descricao} </p>
+                                }
+                            
                         </div>
                 </div>
            </div>
