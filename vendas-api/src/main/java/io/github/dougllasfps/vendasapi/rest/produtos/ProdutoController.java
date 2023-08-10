@@ -2,7 +2,6 @@ package io.github.dougllasfps.vendasapi.rest.produtos;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +31,17 @@ public class ProdutoController {
 		return repository.findAll().stream()
 				.map(ProdutoFormRequest::fromModel)//.map(p -> ProdutoFormRequest.fromModel(p))
 				.collect(Collectors.toList());
+	}
+	
+	@GetMapping("{id}")
+	public ResponseEntity<ProdutoFormRequest> getById(@PathVariable Long id) {
+		Optional<Produto> produtoExistente = repository.findById(id);
+		if(produtoExistente.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		var produto = produtoExistente.map( ProdutoFormRequest::fromModel).get();
+		return ResponseEntity.ok(produto);
 	}
 	
 	@PostMapping
