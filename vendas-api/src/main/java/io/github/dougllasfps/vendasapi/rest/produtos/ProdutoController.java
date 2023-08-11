@@ -34,13 +34,13 @@ public class ProdutoController {
 	}
 	
 	@GetMapping("{id}")
-	public ResponseEntity<ProdutoFormRequest> getById(@PathVariable Long id) {
+	public ResponseEntity<ProdutoFormRequest> getById( @PathVariable Long id ) {
 		Optional<Produto> produtoExistente = repository.findById(id);
 		if(produtoExistente.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		var produto = produtoExistente.map( ProdutoFormRequest::fromModel).get();
+		var produto = produtoExistente.map( ProdutoFormRequest::fromModel ).get();
 		return ResponseEntity.ok(produto);
 	}
 	

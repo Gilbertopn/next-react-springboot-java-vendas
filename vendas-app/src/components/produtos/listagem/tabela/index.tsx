@@ -2,8 +2,8 @@ import { Produto } from "app/models/produtos"
 
 interface TabelaProdutosProps{
     produtos: Array<Produto>;
-    onEdit: (produto) => void;
-    onDelete:(produto) => void;
+    onEdit: (produto: any) => void;
+    onDelete:(produto: any) => void;
 }
 
 export const TabelaProdutos: React.FC <TabelaProdutosProps>= ({
@@ -15,11 +15,11 @@ export const TabelaProdutos: React.FC <TabelaProdutosProps>= ({
         <table className="table is-striped is-hoverable">
             <thead>
                <tr>
-               <th>Código</th> 
-               <th>SKU</th> 
-               <th>Nome</th> 
-               <th>Preço</th> 
-               <th></th> 
+                <th>Código</th> 
+                <th>SKU</th> 
+                <th>Nome</th> 
+                <th>Preço</th> 
+                <th></th> 
                </tr>
             </thead>
             <tbody>
@@ -38,8 +38,8 @@ export const TabelaProdutos: React.FC <TabelaProdutosProps>= ({
 
 interface ProdutoRowProps{
     produto: Produto;
-    onEdit: (produto) => void;
-    onDelete:(produto) => void;
+    onEdit: (produto: any) => void;
+    onDelete:(produto: any) => void;
 }
 
 const ProdutoRow: React.FC<ProdutoRowProps>= ({
@@ -64,3 +64,4 @@ const ProdutoRow: React.FC<ProdutoRowProps>= ({
         </tr>
    )
 }
+

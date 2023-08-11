@@ -1,11 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Input, Layout, Message } from 'components'
 import { useProdutoService } from 'app/services'
 import { Produto } from 'app/models/produtos'
-import { converterEmBigDecimal } from 'app/util/money'
+import { converterEmBigDecimal, formatReal  } from 'app/util/money'
 import { ALert } from 'components/common/message'
 import * as yup from 'yup'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const msgCampoObrigatorio = "Campo Obrigatorio";
 
@@ -25,15 +26,32 @@ interface FormErros {
 
 export const CadastroProdutos: React.FC = () => {
    
-   const service =  useProdutoService()
-   const [ sku, setSku] = useState<string> ('')
-   const [ preco, setPreco] = useState<string> ('')
-   const [ nome, setNome] = useState<string> ('')
-   const [ descricao, setDescricao] = useState<string> ('')
-   const [ id, setId] = useState<string | undefined> ('')
-   const [ cadastro, setCadastro] = useState<string | undefined> ('')
-   const [messages, setMessages] = useState<Array<ALert>>([])
-   const [errors, setErrors] = useState<FormErros>({})
+    const service =  useProdutoService()
+    const [ sku, setSku] = useState<string> ('')
+    const [ preco, setPreco] = useState<string> ('')
+    const [ nome, setNome] = useState<string> ('')
+    const [ descricao, setDescricao] = useState<string> ('')
+    const [ id, setId] = useState<string | undefined> ('')
+    const [ cadastro, setCadastro] = useState<string | undefined> ('')
+    const [messages, setMessages] = useState<Array<ALert>>([])
+    const [errors, setErrors] = useState<FormErros>({})
+    const router = useRouter();
+    const { id: queryId } = router.query
+    
+    useEffect( () => {
+        if(!queryId){
+            service.carregarProduto(queryId).then(produtoEncontrado =>{
+                setId(produtoEncontrado.id)
+                setNome(produtoEncontrado.nome || '')
+                setSku(produtoEncontrado.sku || '')
+                setDescricao(produtoEncontrado.descricao || '')
+                setPreco(formatReal(`${produtoEncontrado.preco }`|| ''))
+                setCadastro(produtoEncontrado.cadastro || '')
+
+            })
+        }
+
+    } , [queryId] )
 
    const submit = () => {
         const produto: Produto =  {
