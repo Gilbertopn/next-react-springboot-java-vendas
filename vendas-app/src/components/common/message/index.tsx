@@ -4,7 +4,7 @@ interface MessageProps{
     texto: string;
 }
 
-export interface ALert{
+export interface Alert{
     tipo: string;
     field?: string;
     texto: string;
